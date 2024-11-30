@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .front-page {
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .header {
+    background-color: #3d85c6;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .title {
+    font-size: 3rem;
+    margin: 0;
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+    margin: 10px 0 0;
+  }
+  
+  .hero {
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .hero-text {
+    margin: 10px 0;
+    font-size: 1.2rem;
+  }
+  
+  .cta-button {
+    background-color: #3d85c6;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .cta-button:hover {
+    background-color: #2d6aa3;
+  }
+  
+  .features {
+    background-color: #e8f5e9;
+    padding: 20px 0;
+  }
+  
+  .features h2 {
+    margin-bottom: 20px;
+    color: #3d85c6;
+  }
+  
+  .feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .feature-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-card h3 {
+    color: #3d85c6;
+  }
+  
+  .footer {
+    padding: 10px 0;
+    background-color: #333;
+    color: white;
+  }
+  
+  .footer nav {
+    margin: 10px 0;
+  }
+  
+  .footer a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }

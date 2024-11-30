@@ -1,0 +1,104 @@
+/* Left Section: Algorithms */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+.Visualiser {
+  height: 100vh;
+  overflow: hidden; /* Prevents scrollbars only within this component */
+}
+
+.Visualiser .left-section {
+  padding: 10px;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+  color: #f9fafb;
+}
+.Visualiser .code-snippet{
+  margin-bottom: 120px;
+}
+
+
+/* Right Section: Tree Visualization */
+.Visualiser .right-section {
+  flex: 1;
+  
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Visualiser #treeWrapper {
+  height: 100%;
+  overflow: hidden;
+}
+
+.Visualiser .right-section h1 {
+  text-align: center;
+  color: white;
+  margin-bottom: 0px;
+}
+
+.Visualiser .tree-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Ensures no scrollbars inside the tree-wrapper */
+}
+
+.Visualiser .tree-container {
+
+  width: 100%;
+  height: 100%;
+}
+.Visualiser .btns{
+ display: flex;
+ justify-content: flex-start;
+ gap:250px;
+}
+.Visualiser .input-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Visualiser input {
+  padding: 8px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.Visualiser .add-btn{
+  background-color: #1e3a8a;
+  width:130px;
+  height:40px;
+  color:#f9fafb;
+  box-shadow: 0 0 15px rgba(0, 126, 255, 0.5);
+}
+.Visualiser .del-text{
+  background-color: #1e3a8a;
+  width:190px;
+  height:40px;
+  color:#f9fafb;
+  box-shadow: 0 0 15px rgba(0, 126, 255, 0.5);
+}
+/* Node Styles */
+.Visualiser .node-circle {
+  stroke: black;
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+.Visualiser .node-text {
+  fill: black;
+  font-size: 12px;
+  text-anchor: middle;
+}

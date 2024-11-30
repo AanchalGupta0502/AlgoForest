@@ -1,0 +1,9 @@
+const mongoose=require('mongoose')
+const Schema=mongoose.Schema;
+const TreeSchema=new Schema({
+value:{type:Number,required:true},
+left:{type:Schema.Types.ObjectId,ref:'TreeNode'},
+right:{type:Schema.Types.ObjectId,ref:'TreeNode'} 
+});
+const TreeModel=mongoose.model('TreeNode',TreeSchema);
+module.exports=TreeModel

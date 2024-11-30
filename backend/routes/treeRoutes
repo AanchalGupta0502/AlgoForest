@@ -1,0 +1,129 @@
+const express = require('express');
+const router = express.Router();
+const TreeNode = require('../model/treeNode');
+
+// Helper function to build the tree recursively
+// Helper function to build the tree recursively
+const buildTree = async (nodeId) => {
+    if (!nodeId) return null;
+  
+    const node = await TreeNode.findById(nodeId);
+    const leftChild = await buildTree(node.left); // Recursively build left subtree
+    const rightChild = await buildTree(node.right); // Recursively build right subtree
+  
+    return {
+      id: node._id.toString(),
+      value: node.value,
+      left: leftChild,
+      right: rightChild || null, // Explicitly return null if there is no right child
+    };
+  };
+  
+/*
+const buildTree = async (nodeId) => {
+  if (!nodeId) return null;
+
+  try {
+    const node = await TreeNode.findById(nodeId);
+    if (!node) return null;
+
+    return {
+      id: node._id.toString(),
+      value: node.value,
+      left: await buildTree(node.left),
+      right: await buildTree(node.right),
+    };
+  } catch (err) {
+    console.error("Error in buildTree:", err);
+    throw err;  // Rethrow to be handled by the calling function
+  }
+};
+*/
+
+// Get tree
+router.get('/', async (req, res) => {
+  try {
+    const rootNode = await TreeNode.findOne(); // Assume one root node exists
+    if (!rootNode) return res.json({ message: 'Tree is empty' });
+
+    const tree = await buildTree(rootNode._id);
+    res.json(tree);
+  } catch (err) {
+    console.error("Error getting tree:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Add node
+
+router.post('/add', async (req, res) => {
+  const { value } = req.body;
+  try {
+    let current = await TreeNode.findOne(); // Root node
+
+    if (!current) {
+      const newNode = new TreeNode({ value });
+      await newNode.save();
+      return res.json(newNode);
+    }
+
+    while (true) {
+      if (value < current.value) {
+        if (!current.left) {
+          const newNode = new TreeNode({ value });
+          current.left = newNode._id;
+          await newNode.save();
+          await current.save();
+          return res.json(newNode);
+        }
+        current = await TreeNode.findById(current.left);
+      } else {
+        if (!current.right) {
+          const newNode = new TreeNode({ value });
+          current.right = newNode._id;
+          await newNode.save();
+          await current.save();
+          return res.json(newNode);
+        }
+        current = await TreeNode.findById(current.right);
+      }
+    }
+  } catch (err) {
+    console.error("Error adding node:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// Delete node
+router.delete('/:id', async (req, res) => {
+  try {
+    const nodeId = req.params.id;
+    if (!nodeId) return res.status(404).json({ error: 'Node ID is required' });
+
+    const node = await TreeNode.findById(nodeId);
+    if (!node) {
+      return res.status(404).json({ error: 'Node not found' });
+    }
+
+    // Find the parent node and update its left/right reference to null
+    const parent = await TreeNode.findOne({ left: nodeId }) || await TreeNode.findOne({ right: nodeId });
+    if (parent) {
+      if (parent.left && parent.left.toString() === nodeId) {
+        parent.left = null;
+      } else if (parent.right && parent.right.toString() === nodeId) {
+        parent.right = null;
+      }
+      await parent.save();  // Save the updated parent
+    }
+
+    // Delete the node
+    await TreeNode.findByIdAndDelete(nodeId);
+    res.json({ message: "Node deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting node:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;

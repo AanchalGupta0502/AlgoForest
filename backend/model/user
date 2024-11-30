@@ -1,0 +1,20 @@
+const mongoose=require('mongoose')
+const schema=mongoose.Schema;
+const UserSchema=new schema({
+    UserName:{
+        type:String,
+        required:true},
+    Password:{
+        type:String,
+        required:true},
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    summary:String,
+    work:String,
+    linkedIN:String
+});
+const UserModel=mongoose.model('User',UserSchema);
+module.exports=UserModel;   //since its only one object no need to put in {}

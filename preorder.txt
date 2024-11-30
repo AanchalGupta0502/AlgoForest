@@ -1,0 +1,80 @@
+import React, { useState, useEffect } from 'react';
+import Tree from 'react-d3-tree';
+
+const PreorderTraversalTree = () => {
+  const [treeData, setTreeData] = useState([
+    {
+      name: "1",
+      children: [
+        {
+          name: "2",
+          children: [
+            { name: "4" },
+            { name: "5" },
+          ],
+        },
+        { name: "3" },
+      ],
+    },
+  ]);
+  const [visitedNodes, setVisitedNodes] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Preorder Traversal with delayed state update for animation
+  const preorderTraversal = (node, visited = []) => {
+    if (node) {
+      visited.push(node.name);  // Visit the node
+      if (node.children) {
+        node.children.forEach((child) => preorderTraversal(child, visited));
+      }
+    }
+    return visited;
+  };
+
+  useEffect(() => {
+    const result = preorderTraversal(treeData[0]);
+    setVisitedNodes(result);  // Store preorder result
+  }, [treeData]);
+
+  useEffect(() => {
+    if (visitedNodes.length > 0) {
+      const intervalId = setInterval(() => {
+        if (currentIndex < visitedNodes.length) {
+          setCurrentIndex((prev) => prev + 1);
+        } else {
+          clearInterval(intervalId); // Stop when all nodes are visited
+        }
+      }, 1000); // Delay of 1 second between each node visit
+      return () => clearInterval(intervalId); // Cleanup on unmount
+    }
+  }, [visitedNodes, currentIndex]);
+
+  return (
+    <div>
+      <h1 style={{color:'black',textAlign:'center'}}>Preorder Traversal Animation</h1>
+      <div style={{ width: '100%', height: '500px' }}>
+        <Tree
+          data={treeData}
+          orientation="vertical"
+          renderCustomNodeElement={(rd3tProps) => {
+            const { nodeDatum } = rd3tProps;
+            const isVisited = visitedNodes.slice(0, currentIndex).includes(nodeDatum.name);
+            return (
+              <g>
+                <circle
+                  r="20"
+                  fill={isVisited ? "green" : "red"} // Highlight visited nodes
+                  onClick={() => console.log(`Visited Node: ${nodeDatum.name}`)}
+                />
+                <text>{nodeDatum.name}</text>
+              </g>
+            );
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default PreorderTraversalTree;
+
